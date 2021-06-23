@@ -151,7 +151,7 @@ services:
       SPRING_APPLICATION_NAME: "thynk-request-executor"
       SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
       SPRING_KAFKA_CONSUMER_PROPERTIES_PARTITION_ASSIGNMENT_STRATEGY: org.apache.kafka.clients.consumer.RoundRobinAssignor
-      RULES_ENGINE_SERVICE_URL: http://server1:7777/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://server1:7777/RulesEngine/AccumedValidator
     depends_on: 
       - kafka
       - mongo

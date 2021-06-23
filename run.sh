@@ -2,7 +2,7 @@
 #docker-compose down
 
 echo "Building projects..."
-./mvnw clean install -DskipTests
+./mvnw -s mvn-settings.xml clean install -DskipTests
 
 echo "Spinning up services..."
 docker-compose up -d --build

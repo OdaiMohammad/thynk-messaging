@@ -195,7 +195,7 @@ public class ScrubRequestJsonParsingService {
 
     private ScrubScrubbingRequestClaimContract jsonToContract(JsonNode contractJson) {
         ScrubScrubbingRequestClaimContract contract = new ScrubScrubbingRequestClaimContract();
-        contract.setPackageName(contractJson.get("PackageName").asText(""));
+        contract.setpackageName(contractJson.get("PackageName").asText(""));
         contract.setNetwork(contractJson.get("Network") != null ? contractJson.get("Network").asText("") : "");
         contract.setSubNetworkName(contractJson.get("SubNetworkName") != null ? contractJson.get("SubNetworkName").asText("") : "");
         contract.setPolicy(contractJson.get("Policy") != null ? contractJson.get("Policy").asText("") : "");
@@ -225,7 +225,7 @@ public class ScrubRequestJsonParsingService {
         insurance.setRELATION_TO(patientInsuranceJson.get("RELATION_TO").asText(""));
         insurance.setPRINCIPLE_INSURANCE_ID(patientInsuranceJson.get("PRINCIPLE_INSURANCE_ID").asText(""));
         insurance.setINSURANCE_LISENCE(patientInsuranceJson.get("INSURANCE_LISENCE").asText(""));
-        insurance.setPACKAGE_NAME(patientInsuranceJson.get("PACKAGE_NAME").asText(""));
+        insurance.setpackage_NAME(patientInsuranceJson.get("PACKAGE_NAME").asText(""));
         insurance.setNetworkName(patientInsuranceJson.get("NetworkName").asText(""));
         insurance.setNetworkId(patientInsuranceJson.get("NetworkId").asInt(0));
         insurance.setSubNetworkName(patientInsuranceJson.get("SubNetworkName") != null ? patientInsuranceJson.get("SubNetworkName").asText("") : "");
@@ -360,7 +360,7 @@ public class ScrubRequestJsonParsingService {
 
     private ScrubScrubbingRequestClaimXClaimXContract jsonToXContract(JsonNode xContractJson) {
         ScrubScrubbingRequestClaimXClaimXContract xContract = new ScrubScrubbingRequestClaimXClaimXContract();
-        xContract.setPackageName(xContractJson.get("PackageName").asText(""));
+        xContract.setpackageName(xContractJson.get("PackageName").asText(""));
         return xContract;
     }
 
@@ -463,7 +463,7 @@ public class ScrubRequestJsonParsingService {
 
     private ScrubScrubbingRequestClaimFClaimFContract jsonToFContract(JsonNode fContractJson) {
         ScrubScrubbingRequestClaimFClaimFContract fContract = new ScrubScrubbingRequestClaimFClaimFContract();
-        fContract.setPackageName(fContractJson.get("PackageName").asText(""));
+        fContract.setpackageName(fContractJson.get("PackageName").asText(""));
         return fContract;
     }
 
