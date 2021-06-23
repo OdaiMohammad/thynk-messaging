@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/header.css}"/>
+</head>
+<body>
+<div th:fragment="header" class="cbp-af-header"
+     style="margin-bottom: 2.5em;padding: 1em 0 1em 1em;border-width: 2px; background-color: #007bff">
+    <div class="cbp-af-inner">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-9">
+                    <h1 style="color:#FFFFFF;">Thynk Requests Admin</h1>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <form method="GET" th:action="@{/}" style="display: inline-block">
+                <input type="submit" value="Request stats" class="btn btn-primary">
+            </form>
+        </nav>
+    </div>
+</div>
+</body>
+</html>
