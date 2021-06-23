@@ -1,0 +1,196 @@
+version: "3.9"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    restart: always
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_log:/var/lib/zookeeper/log
+    networks: 
+      - thynk
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    restart: always
+    hostname: kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:19092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+    depends_on:
+      - zookeeper
+    volumes: 
+      - kafka_data:/var/lib/kafka/data
+    networks: 
+      - thynk
+
+  schema:
+    image: confluentinc/cp-schema-registry:latest
+    container_name: schema
+    restart: always
+    depends_on:
+      - zookeeper
+    environment:
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
+      SCHEMA_REGISTRY_HOST_NAME: localhost
+      SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
+    ports:
+      - 8085:8085
+    networks: 
+      - thynk
+
+  connect:
+    image: confluentinc/cp-kafka-connect:latest
+    container_name: connect
+    restart: always
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:19092"
+      CONNECT_REST_PORT: 28082
+      CONNECT_GROUP_ID: "connect-cluster"
+      CONNECT_CONFIG_STORAGE_TOPIC: "connect-cluster-config"
+      CONNECT_OFFSET_STORAGE_TOPIC: "connect-cluster-offset"
+      CONNECT_STATUS_STORAGE_TOPIC: "connect-cluster-status"
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
+      CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://schema:8085"
+      CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
+      CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
+      CONNECT_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
+      CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
+      CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
+      CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
+    ports:
+      - 8083:8083
+      - 28082:28082
+    volumes:
+      - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
+    networks:
+      - thynk
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop
+    container_name: kafdrop
+    restart: always
+    ports:
+      - "9000:9000"
+    environment:
+      KAFKA_BROKERCONNECT: "kafka:19092"
+    depends_on:
+      - kafka
+    networks: 
+      - thynk
+
+  thynk-requests-prioritizor:
+    build: thynk-requests-prioritizor/.
+    image: thynk-requests-prioritizor:latest
+    container_name: thynk-requests-prioritizor
+    restart: always
+    environment: 
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
+      SPRING_APPLICATION_NAME: "thynk-request-prioritizor"
+      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
+    depends_on: 
+      - kafka
+    networks: 
+      - thynk
+
+
+  thynk-requests-stats:
+    build: thynk-requests-stats/.
+    image: thynk-requests-stats:latest
+    container_name: thynk-requests-stats
+    restart: always
+    ports: 
+      - 8088:8080
+    environment: 
+      SPRING_DATA_MONGODB_HOST: "mongo"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_DATA_MONGODB_DATABSE: "thynk"
+    depends_on: 
+      - mongo
+    networks: 
+      - thynk
+
+  thynk-requests-executor:
+    build: thynk-requests-executor/.
+    image: thynk-requests-executor:latest
+    container_name: thynk-requests-executor
+    restart: always
+    environment: 
+      SPRING_DATA_MONGODB_HOST: "mongo"
+      SPRING_DATA_MONGODB_PORT: "27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
+      SPRING_KAFKA_CONSUMER_GROUP-ID: "thynk-request-consumers"
+      SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESTE: "earliest"
+      SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT: "false"
+      SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS: 1
+      SPRING_KAFKA_LISTENER_IDLE_EVENT_INTERVAL: 5000
+      SPRING_KAFKA_LISTENER_ACK_MODE: "manual_immediate"
+      SPRING_KAFKA_PRODUCER_KEY_SERIALIZER: "org.apache.kafka.common.serialization.StringSerializer"
+      SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: "org.springframework.kafka.support.serializer.JsonSerializer"
+      SPRING_DATA_MONGODB_DATABSE: "thynk"
+      SPRING_APPLICATION_NAME: "thynk-request-executor"
+      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
+      SPRING_KAFKA_CONSUMER_PROPERTIES_PARTITION_ASSIGNMENT_STRATEGY: org.apache.kafka.clients.consumer.RoundRobinAssignor
+      RULES_ENGINE_SERVICE_URL: http://server1:7777/RulesEngine/AccumedValidator
+    depends_on: 
+      - kafka
+      - mongo
+    networks: 
+      - thynk
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    networks: 
+      - thynk
+  
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    restart: always
+    ports:
+      - "9411:9411"
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    networks: 
+      - thynk
+
+volumes:
+  zookeeper_data:
+    name: zookeeper_data
+  zookeeper_log:
+    name: zookeeper_log
+  kafka_data:
+    name: kafka_data
+  mongo_data:
+    name: mongo_data
+
+networks: 
+  thynk:
+    name: thynk

@@ -1,0 +1,18 @@
+{
+  "name": "mongo-source-connector",
+  "config": {
+    "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
+    "tasks.max": "1",
+    "connection.uri": "mongodb://mongo:27017",
+    "database": "thynk",
+    "collection": "thynkrequest",
+    "publish.full.document.only": true,
+    "batch.size": 10,
+    "poll.await.time.ms": 1,
+    "poll.max.batch.size": 10,
+    "pipeline": "[{\"$match\": {\"operationType\": \"insert\"}}]",
+    "producer.override.zipkin.local.service.name": "mongodb-source-connector",
+    "producer.override.zipkin.sender.type": "HTTP",
+    "producer.override.zipkin.http.endpoint": "http://zipkin:9411/api/v2/spans"
+  }
+}
