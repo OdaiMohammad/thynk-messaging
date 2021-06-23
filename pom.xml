@@ -11,6 +11,7 @@
 
     <modules>
         <module>thynk-requests-prioritizor</module>
+        <module>thynk-requests-executor</module>
     </modules>
 
 </project>
