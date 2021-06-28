@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "Building projects..."
+./mvnw -s mvn-settings.xml clean install -DskipTests
+
+echo "Spinning up services..."
+docker-compose up -d --build
+
+echo "Waiting for Kafka Connect to be ready..."
+
+
+./wait-for http://localhost:28082/ -- echo "Kafka Connect is up"
+
+echo "Creating MongoDb connector..."
+
+curl -sS -X POST -H "Content-Type: application/json" --data @kafka-connect-mongodb-source-config.json localhost:28082/connectors > /dev/null
+
+echo "Created MongoDB connector"
+
+echo "System is ready to recive messages"

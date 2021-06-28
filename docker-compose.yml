@@ -167,16 +167,6 @@ services:
     networks:
       - thynk
 
-  thynk-requests-admin:
-    build: thynk-requests-admin/.
-    image: thynk-requests-admin:latest
-    container_name: thynk-requests-admin
-    restart: always
-    ports:
-      - 8099:8080
-    networks:
-      - thynk
-
   mongo:
     image: mongo:latest
     container_name: mongo
