@@ -108,7 +108,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
       SPRING_APPLICATION_NAME: "thynk-request-prioritizor"
       SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
-      SPRING_BOOT_ADMIN_CLIENT_URL: http://thynk-requests-admin:8080
+      SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
     depends_on:
@@ -128,7 +128,7 @@ services:
       SPRING_DATA_MONGODB_HOST: "mongo"
       SPRING_DATA_MONGODB_PORT: "27017"
       SPRING_DATA_MONGODB_DATABSE: "thynk"
-      SPRING_BOOT_ADMIN_CLIENT_URL: http://thynk-requests-admin:8080
+      SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
     depends_on:
@@ -158,7 +158,7 @@ services:
       SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
       SPRING_KAFKA_CONSUMER_PROPERTIES_PARTITION_ASSIGNMENT_STRATEGY: org.apache.kafka.clients.consumer.RoundRobinAssignor
       RULES_ENGIN_SERVICE_URL: http://server1:7777/RulesEngine/AccumedValidator
-      SPRING_BOOT_ADMIN_CLIENT_URL: http://thynk-requests-admin:8080
+      SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
     depends_on:

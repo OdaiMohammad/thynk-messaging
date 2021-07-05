@@ -21,6 +21,10 @@ Steps to run the system in a development environment:
 ```bash
 ./run
 ```
+5. Use the stop script to take the system down using the following command:
+```bash
+./stop
+```
 ## System architecture
 
 ![System architecture diagram](assets/ThynkArch.PNG)

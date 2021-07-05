@@ -38,21 +38,19 @@ public class ThynkRequestPrioritizor {
             String payloadString = messageJson.get("payload").asText();
             ObjectNode payloadJson = (ObjectNode) mapper.readTree(payloadString);
             int priority = payloadJson.get("priority").asInt();
-            String id = payloadJson.get("_id").get("$oid").asText();
             switch (priority) {
                 case 1:
-                    kafkaTemplate.send(vipTopic, id, messageJson);
+                    kafkaTemplate.send(vipTopic, messageJson);
                     break;
                 case 2:
-                    kafkaTemplate.send(normalTopic, id, messageJson);
+                    kafkaTemplate.send(normalTopic, messageJson);
                     break;
                 case 3:
-                    kafkaTemplate.send(bulkTopic, id, messageJson);
+                    kafkaTemplate.send(bulkTopic, messageJson);
                     break;
                 default:
                     break;
             }
-
             acknowledgment.acknowledge();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
