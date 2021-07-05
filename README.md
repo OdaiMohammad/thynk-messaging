@@ -18,13 +18,13 @@ Steps to run the system in a development environment:
 2. Start the Docker Engine.
 3. Make sure to [install Docker Compose](https://docs.docker.com/compose/install/)
 4. Simply use the run script to spin up the system using the following command:
-```bash
-./run
-```
+    ```bash
+    ./run
+    ```
 5. Use the stop script to take the system down using the following command:
-```bash
-./stop
-```
+    ```bash
+    ./stop
+    ```
 ## System architecture
 
 ![System architecture diagram](assets/ThynkArch.PNG)
