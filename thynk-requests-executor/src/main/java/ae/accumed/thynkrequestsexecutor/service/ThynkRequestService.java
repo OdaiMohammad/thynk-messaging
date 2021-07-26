@@ -1,6 +1,5 @@
 package ae.accumed.thynkrequestsexecutor.service;
 
-import ae.accumed.thynkrequestsexecutor.engine.RuleResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ThynkRequestService {
@@ -44,7 +42,7 @@ public class ThynkRequestService {
             logger.info("Received message with id {} and priority {}", id, priority);
             logger.info("Processing message with id {} and priority {}", id, priority);
 
-            List<RuleResult> results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString());
+            Object results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString());
 
             payloadJson.put("updatedAt", new Date().getTime());
             logger.info("Processed message with id {} and priority {}", id, priority);

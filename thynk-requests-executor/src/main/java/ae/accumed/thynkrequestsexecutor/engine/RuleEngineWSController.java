@@ -3,29 +3,26 @@ package ae.accumed.thynkrequestsexecutor.engine;
 
 import com.accumed.ws.wsinterface.rulesengine.service.*;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RuleEngineWSController {
 
-    public static synchronized List<RuleResult> validateSingleClaim(ScrubScrubbingRequestClaim claim, String receiverId, String[] validationType, String userName, Integer userID, boolean exDBRules) throws UnknownHostException {
-
-        InetAddress hostname = InetAddress.getLocalHost();
+    public static synchronized Object validateSingleClaim(ScrubScrubbingRequestClaim claim, String receiverId, String[] validationType, String userName, Integer userID, boolean exDBRules, String sender, String callingServer, String callingApp, String callingAppVersion) throws UnknownHostException {
 
         if (claim != null) {
 
             ScrubScrubbingRequestHeader header = new ScrubScrubbingRequestHeader(receiverId, getExtendedValidationType(validationType), null, null);
 
-            ScrubScrubbingRequest request = new ScrubScrubbingRequest(claim.getProviderID(), hostname.getHostName(), "Billing", "3.0", userID, userName, exDBRules, 0, header, claim, null);
+            ScrubScrubbingRequest request = new ScrubScrubbingRequest(sender, callingServer, callingApp, callingAppVersion, userID, userName, exDBRules, 0, header, claim, null);
 
             AccumedValidatorWSProxy proxy = new AccumedValidatorWSProxy();
             AccumedValidatorWS soap = proxy.getAccumedValidatorWS();
             ScrubResponseReturn response = null;
             boolean serviceError = false;
+            String errorMessage = "";
 
             try {
                 Logger.getLogger(RuleEngineWSController.class.getName()).log(Level.INFO, "Calling AccumedValidator for claim ({0})", claim.getID());
@@ -37,6 +34,7 @@ public class RuleEngineWSController {
                         "Error Calling AccumedValidator for claim ({0} the following is the details of the exception:)", claim.getID());
                 Logger.getLogger(RuleEngineWSController.class.getName()).log(Level.SEVERE, e.getMessage(), e);
                 serviceError = true;
+                errorMessage = e.getMessage();
             }
             if (!serviceError && response != null && response.getClaim() != null) {
                 if (response.getClaim().getClaimType() != null
@@ -52,20 +50,16 @@ public class RuleEngineWSController {
                     claim.setClaimType(detectedType);
                 }
 
-                return new ArrayList<>(getAllOutcomes(response));
+                return response;
             } else {
-                ArrayList<RuleResult> resultList = new ArrayList<>();
                 RuleResult r = new RuleResult("", "0");
-                r.setShortMsgDescription("Service Error");
-                resultList.add(r);
-                return resultList;
+                r.setShortMsgDescription(String.format("Service Error: %s", errorMessage));
+                return r;
             }
         } else {
-            ArrayList<RuleResult> resultList = new ArrayList<>();
             RuleResult r = new RuleResult("", "0");
             r.setShortMsgDescription("Service Error");
-            resultList.add(r);
-            return resultList;
+            return r;
         }
 
     }

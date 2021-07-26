@@ -23,6 +23,9 @@ public class ProducerConfiguration {
     @Value("${spring.kafka.producer.batch-size}")
     private String batchSize;
 
+    @Value("${spring.kafka.producer.properties.linger.ms}")
+    private String lingerMS;
+
     @Value("${spring.kafka.producer.properties.partitioner.class}")
     private String partitionerClass;
 
@@ -44,6 +47,9 @@ public class ProducerConfiguration {
         configProps.put(
                 ProducerConfig.BATCH_SIZE_CONFIG,
                 batchSize);
+        configProps.put(
+                ProducerConfig.LINGER_MS_CONFIG,
+                lingerMS);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
