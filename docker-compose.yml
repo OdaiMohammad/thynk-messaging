@@ -176,7 +176,6 @@ services:
       - thynk-messaging-net
 
   thynk-messaging-prioritizor-1:
-    build: thynk-requests-prioritizor/.
     image: thynk-messaging-prioritizor:latest
     container_name: thynk-messaging-prioritizor-1
     restart: always
@@ -203,7 +202,6 @@ services:
       - thynk-messaging-net
 
   thynk-messaging-prioritizor-2:
-    build: thynk-requests-prioritizor/.
     image: thynk-messaging-prioritizor:latest
     container_name: thynk-messaging-prioritizor-2
     restart: always
@@ -230,7 +228,6 @@ services:
       - thynk-messaging-net
 
   thynk-messaging-stats:
-    build: thynk-requests-stats/.
     image: thynk-messaging-stats:latest
     container_name: thynk-messaging-stats
     restart: always
@@ -245,7 +242,6 @@ services:
       - stg0
 
   thynk-messaging-executor-1:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-1
     restart: always
@@ -266,7 +262,6 @@ services:
       - stg0
 
   thynk-messaging-executor-2:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-2
     restart: always
@@ -287,7 +282,6 @@ services:
       - stg0
 
   thynk-messaging-executor-3:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-3
     restart: always
@@ -308,7 +302,6 @@ services:
       - stg0
 
   thynk-messaging-executor-4:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-4
     restart: always
@@ -329,7 +322,6 @@ services:
       - stg0
 
   thynk-messaging-executor-5:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-5
     restart: always
@@ -350,7 +342,6 @@ services:
       - stg0
 
   thynk-messaging-executor-6:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-6
     restart: always
@@ -371,7 +362,6 @@ services:
       - stg0
 
   thynk-messaging-executor-7:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-7
     restart: always
@@ -392,7 +382,6 @@ services:
       - stg0
 
   thynk-messaging-executor-8:
-    build: thynk-requests-executor/.
     image: thynk-messaging-executor:latest
     container_name: thynk-messaging-executor-8
     restart: always

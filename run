@@ -1,10 +1,7 @@
 #!/bin/sh
 
-echo "Building projects..."
-./mvnw -s mvn-settings.xml clean install -DskipTests
-
 echo "Spinning up services..."
-docker-compose up -d --build
+docker-compose up -d
 
 echo "Waiting for Kafka Connect to be ready..."
 
