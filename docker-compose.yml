@@ -18,7 +18,7 @@ services:
       - thynk_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
       stg0:
-        - ipv4_address: 172.30.0.60
+        ipv4_address: 172.30.0.60
 
   thynk-messaging-zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
@@ -37,7 +37,7 @@ services:
       - thynk_messaging_zookeeper_2_log:/var/lib/zookeeper/log
     networks:
       stg0:
-        - ipv4_address: 172.30.0.61
+        ipv4_address: 172.30.0.61
 
   thynk-messaging-zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
@@ -56,7 +56,7 @@ services:
       - thynk_messaging_zookeeper_3_log:/var/lib/zookeeper/log
     networks:
       stg0:
-        - ipv4_address: 172.30.0.62
+        ipv4_address: 172.30.0.62
 
   thynk-messaging-kafka-1:
     image: confluentinc/cp-kafka:latest
@@ -76,7 +76,7 @@ services:
       - thynk_messaging_kafka_1_data:/var/lib/kafka/data
     networks:
       stg0:
-        - ipv4_address: 172.30.0.63
+        ipv4_address: 172.30.0.63
 
   thynk-messaging-kafka-2:
     image: confluentinc/cp-kafka:latest
@@ -96,7 +96,7 @@ services:
       - thynk_messaging_kafka_2_data:/var/lib/kafka/data
     networks:
       stg0:
-        - ipv4_address: 172.30.0.64
+        ipv4_address: 172.30.0.64
 
   thynk-messaging-kafka-3:
     image: confluentinc/cp-kafka:latest
@@ -116,7 +116,7 @@ services:
       - thynk_messaging_kafka_3_data:/var/lib/kafka/data
     networks:
       stg0:
-        - ipv4_address: 172.30.0.65
+        ipv4_address: 172.30.0.65
 
   thynk-messaging-schema-registry:
     image: confluentinc/cp-schema-registry:latest
@@ -132,12 +132,14 @@ services:
       SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
     networks:
       stg0:
-        - ipv4_address: 172.30.0.66
+        ipv4_address: 172.30.0.66
 
   thynk-messaging-kafka-connect:
     image: confluentinc/cp-kafka-connect:latest
     container_name: thynk-messaging-kafka-connect
     restart: always
+    ports:
+      - 38082:28082
     environment:
       CONNECT_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       CONNECT_REST_PORT: 28082
@@ -164,7 +166,7 @@ services:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
       stg0:
-        - ipv4_address: 172.30.0.67
+        ipv4_address: 172.30.0.67
 
   thynk-messaging-prioritizor-1:
     build: thynk-requests-prioritizor/.
@@ -192,7 +194,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.69
+        ipv4_address: 172.30.0.69
 
   #  thynk-messaging-prioritizor-2:
   #    build: thynk-requests-prioritizor/.
@@ -220,7 +222,7 @@ services:
   #      - thynk-messaging-kafka-3
   #    networks:
   #      stg0:
-  #        - ipv4_address: 172.30.0.70
+  #        ipv4_address: 172.30.0.70
 
 
   thynk-messaging-executor-1:
@@ -242,7 +244,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.72
+        ipv4_address: 172.30.0.72
 
   thynk-messaging-executor-2:
     build: thynk-requests-executor/.
@@ -263,7 +265,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.73
+        ipv4_address: 172.30.0.73
 
   thynk-messaging-executor-3:
     build: thynk-requests-executor/.
@@ -284,7 +286,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.74
+        ipv4_address: 172.30.0.74
 
   thynk-messaging-executor-4:
     build: thynk-requests-executor/.
@@ -305,7 +307,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.75
+        ipv4_address: 172.30.0.75
 
   thynk-messaging-executor-5:
     build: thynk-requests-executor/.
@@ -326,7 +328,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.76
+        ipv4_address: 172.30.0.76
 
   thynk-messaging-executor-6:
     build: thynk-requests-executor/.
@@ -347,7 +349,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.77
+        ipv4_address: 172.30.0.77
 
   thynk-messaging-executor-7:
     build: thynk-requests-executor/.
@@ -368,7 +370,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.78
+        ipv4_address: 172.30.0.78
 
   thynk-messaging-executor-8:
     build: thynk-requests-executor/.
@@ -389,7 +391,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.79
+        ipv4_address: 172.30.0.79
 
   thynk-messaging-zipkin:
     image: openzipkin/zipkin
@@ -397,7 +399,7 @@ services:
     restart: always
     networks:
       stg0:
-        - ipv4_address: 172.30.0.80
+        ipv4_address: 172.30.0.80
 
   thynk-messaging-stats:
     build: thynk-requests-stats/.
@@ -410,7 +412,7 @@ services:
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
     networks:
       stg0:
-        - ipv4_address: 172.30.0.70
+        ipv4_address: 172.30.0.70
 
   thynk-messaging-kafdrop:
     image: obsidiandynamics/kafdrop
@@ -424,7 +426,7 @@ services:
       - thynk-messaging-kafka-3
     networks:
       stg0:
-        - ipv4_address: 172.30.0.68
+        ipv4_address: 172.30.0.68
 
 volumes:
   thynk_messaging_zookeeper_1_data:

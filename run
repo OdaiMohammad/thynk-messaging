@@ -7,7 +7,7 @@ docker-compose up -d
 echo "Waiting for Kafka Connect to be ready..."
 
 
-./wait-for http://localhost:28082/ -- echo "Kafka Connect is up"
+./wait-for http://localhost:38082/ -- echo "Kafka Connect is up"
 
 echo "Creating MongoDb connector..."
 
