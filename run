@@ -1,6 +1,7 @@
 #!/bin/sh
 
 echo "Spinning up services..."
+
 docker-compose up -d
 
 echo "Waiting for Kafka Connect to be ready..."

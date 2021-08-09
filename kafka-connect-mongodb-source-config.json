@@ -13,6 +13,6 @@
     "pipeline": "[{\"$match\": {\"operationType\": \"insert\"}}]",
     "producer.override.zipkin.local.service.name": "mongodb-source-connector",
     "producer.override.zipkin.sender.type": "HTTP",
-    "producer.override.zipkin.http.endpoint": "http://zipkin:9411/api/v2/spans"
+    "producer.override.zipkin.http.endpoint": "http://thynk-messaging-zipkin:9411/api/v2/spans"
   }
 }
