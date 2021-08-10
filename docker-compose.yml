@@ -415,7 +415,8 @@ services:
         ipv4_address: 172.30.0.70
 
   thynk-messaging-kafdrop:
-    image: obsidiandynamics/kafdrop
+    build: kafdrop/.
+    image: accumed/kafdrop
     container_name: thynk-messaging-kafdrop
     restart: always
     environment:

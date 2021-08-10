@@ -2,7 +2,7 @@
 
 echo "Spinning up services..."
 
-docker-compose up -d
+docker-compose up -d --build
 
 echo "Waiting for Kafka Connect to be ready..."
 
@@ -11,7 +11,7 @@ echo "Waiting for Kafka Connect to be ready..."
 
 echo "Creating MongoDb connector..."
 
-curl -sS -X POST -H "Content-Type: application/json" --data @kafka-connect-mongodb-source-config.json localhost:28082/connectors > /dev/null
+curl -sS -X POST -H "Content-Type: application/json" --data @kafka-connect-mongodb-source-config.json localhost:38082/connectors > /dev/null
 
 echo "Created MongoDB connector"
 
