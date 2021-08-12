@@ -1,5 +1,6 @@
 package ae.accumed.thynkrequestsexecutor.service;
 
+import com.accumed.ws.wsinterface.rulesengine.service.ScrubResponseReturn;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
@@ -20,15 +21,16 @@ public class ThynkRequestService {
     private static final Logger logger = LoggerFactory.getLogger(ThynkRequestService.class);
     private final ThynkRuleEngineService thynkRuleEngineService;
     private final MongoTemplate mongoTemplate;
-
+    private final KafkaService kafkaService;
 
     @Value("${spring.application.name}")
     private String consumerName;
 
     @Autowired
-    public ThynkRequestService(ThynkRuleEngineService thynkRuleEngineService, MongoTemplate mongoTemplate) {
+    public ThynkRequestService(ThynkRuleEngineService thynkRuleEngineService, MongoTemplate mongoTemplate, KafkaService kafkaService) {
         this.thynkRuleEngineService = thynkRuleEngineService;
         this.mongoTemplate = mongoTemplate;
+        this.kafkaService = kafkaService;
     }
 
     public void processMessage(String message) {
@@ -44,19 +46,29 @@ public class ThynkRequestService {
 
             Object results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString());
 
-            payloadJson.put("updatedAt", new Date().getTime());
-            logger.info("Processed message with id {} and priority {}", id, priority);
-            logger.info("Saving result..");
-            mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(id)), new Update()
-                            .set("updatedAt", Instant.now().toEpochMilli())
-                            .set("status", "finished")
-                            .set("consumerName", consumerName)
-                            .set("requestResults", results),
-                    "thynkrequest");
-
-            logger.info("Result saved to MongoDB");
+            if (results instanceof ScrubResponseReturn && ((ScrubResponseReturn) results).getOutcome() != null) {
+                if (((ScrubResponseReturn) results).getOutcome()[0].getShortMsg().toLowerCase().contains("server exhausted")) {
+                    kafkaService.sendVipThynkRequest(message);
+                } else
+                    saveResults(payloadJson, priority, id, results);
+            } else
+                saveResults(payloadJson, priority, id, results);
         } catch (Exception e) {
             logger.error("Error processing message", e);
         }
+    }
+
+    private void saveResults(ObjectNode payloadJson, int priority, String id, Object results) {
+        payloadJson.put("updatedAt", new Date().getTime());
+        logger.info("Processed message with id {} and priority {}", id, priority);
+        logger.info("Saving result..");
+        mongoTemplate.updateFirst(new Query(Criteria.where("_id").is(id)), new Update()
+                        .set("updatedAt", Instant.now().toEpochMilli())
+                        .set("status", "finished")
+                        .set("consumerName", consumerName)
+                        .set("requestResults", results),
+                "thynkrequest");
+
+        logger.info("Result saved to MongoDB");
     }
 }
