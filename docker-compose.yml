@@ -68,6 +68,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_MESSAGE_MAX_BYTES: 15728640
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
       - thynk-messaging-zookeeper-1
       - thynk-messaging-zookeeper-2
@@ -88,6 +90,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-2:32181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_MESSAGE_MAX_BYTES: 15728640
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
       - thynk-messaging-zookeeper-1
       - thynk-messaging-zookeeper-2
@@ -108,6 +112,8 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-3:42181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_MESSAGE_MAX_BYTES: 15728640
+      KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
       - thynk-messaging-zookeeper-1
       - thynk-messaging-zookeeper-2
@@ -162,6 +168,10 @@ services:
       CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
       CONNECT_CONNECTOR_CLIENT_CONFIG_OVERRIDE_POLICY: All
+      CONNECT_OFFSET_FLUSH_TIMEOUT_MS: 100000
+      CONNECT_PRODUCER_BUFFER_MEMORY: 15728640
+      CONNECT_PRODUCER_MESSAGE_MAX_SIZE: 15728640
+      CONNECT_PRODUCER_MAX_REQUEST_SIZE: 15728640
     volumes:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
@@ -238,6 +248,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -259,6 +270,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -280,6 +292,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -301,6 +314,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -322,6 +336,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -343,6 +358,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -364,6 +380,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
@@ -385,6 +402,7 @@ services:
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
+      SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
       - thynk-messaging-kafka-1
       - thynk-messaging-kafka-2
