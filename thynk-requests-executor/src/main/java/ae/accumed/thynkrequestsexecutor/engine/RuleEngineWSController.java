@@ -10,14 +10,13 @@ import java.util.logging.Logger;
 
 public class RuleEngineWSController {
 
-    public static synchronized Object validateSingleClaim(ScrubScrubbingRequestClaim claim, String receiverId, String[] validationType, String userName, Integer userID, boolean exDBRules, String sender, String callingServer, String callingApp, String callingAppVersion) throws UnknownHostException {
+    public static synchronized Object validateSingleClaim(ScrubScrubbingRequestClaim claim, String receiverId, String[] validationType, String userName, Integer userID, boolean exDBRules, String restrictPackages, String sender, String callingServer, String callingApp, String callingAppVersion) throws UnknownHostException {
 
         if (claim != null) {
 
             ScrubScrubbingRequestHeader header = new ScrubScrubbingRequestHeader(receiverId, getExtendedValidationType(validationType), null, null);
 
-            ScrubScrubbingRequest request = new ScrubScrubbingRequest(sender, callingServer, callingApp, callingAppVersion, userID, userName, exDBRules, 0, header, claim, null);
-
+            ScrubScrubbingRequest request = new ScrubScrubbingRequest(sender, callingServer, callingApp, callingAppVersion, userID, userName, exDBRules, restrictPackages,0, header, claim, null);
             AccumedValidatorWSProxy proxy = new AccumedValidatorWSProxy();
             AccumedValidatorWS soap = proxy.getAccumedValidatorWS();
             ScrubResponseReturn response = null;

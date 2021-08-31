@@ -1,7 +1,9 @@
 package ae.accumed.thynkrequestsexecutor.service;
 
 import com.accumed.ws.wsinterface.rulesengine.service.ScrubResponseReturn;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,9 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ThynkRequestService {
@@ -43,9 +47,10 @@ public class ThynkRequestService {
             String id = payloadJson.get("_id").get("$oid").asText();
             logger.info("Received message with id {} and priority {}", id, priority);
             logger.info("Processing message with id {} and priority {}", id, priority);
-
-            Object results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString());
-
+            String restrictPackagesJsonString = payloadJson.get("systemPackageId").asText();
+            List<String> restrictPackagesList = mapper.readValue(restrictPackagesJsonString, new TypeReference<List<String>>(){});
+            String restrictPackages = String.join(",", restrictPackagesList);
+            Object results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString(), restrictPackages);
             if (results instanceof ScrubResponseReturn && ((ScrubResponseReturn) results).getOutcome() != null) {
                 if (((ScrubResponseReturn) results).getOutcome()[0].getShortMsg().toLowerCase().contains("server exhausted")) {
                     kafkaService.sendVipThynkRequest(message);

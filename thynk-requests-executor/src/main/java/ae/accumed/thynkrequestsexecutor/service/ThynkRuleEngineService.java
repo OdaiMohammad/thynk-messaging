@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ThynkRuleEngineService {
     private static final Logger logger = LoggerFactory.getLogger(ThynkRuleEngineService.class);
 
-    public Object validateClaim(String claimJson) {
+    public Object validateClaim(String claimJson, String restrictPackages) {
         try {
             ArrayList<String> validationTypes = new ArrayList<>();
             ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -40,7 +40,7 @@ public class ThynkRuleEngineService {
             GsonBuilder gsonBuilder = new GsonBuilder();
             Gson gson = gsonBuilder.create();
             ScrubScrubbingRequestClaim scrubScrubbingRequestClaim = gson.fromJson(scrubbingRequest.get("claim").toString(), ScrubScrubbingRequestClaim.class);
-            return RuleEngineWSController.validateSingleClaim(scrubScrubbingRequestClaim, receiverId, validationTypes.toArray(validationTypesArray), userName, userID, exDBRules, sender, callingServer, callingApp, callingAppVersion);
+            return RuleEngineWSController.validateSingleClaim(scrubScrubbingRequestClaim, receiverId, validationTypes.toArray(validationTypesArray), userName, userID, exDBRules, restrictPackages, sender, callingServer, callingApp, callingAppVersion);
         } catch (Exception e) {
             logger.error("Error while validating claim", e);
             RuleResult r = new RuleResult("", "0");

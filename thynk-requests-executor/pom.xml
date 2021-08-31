@@ -56,7 +56,7 @@
         <dependency>
             <groupId>com.accumed.ws</groupId>
             <artifactId>wsInterface</artifactId>
-            <version>1.0.5.4</version>
+            <version>1.0.5.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
