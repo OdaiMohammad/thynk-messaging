@@ -48,7 +48,12 @@ public class ThynkRequestService {
             logger.info("Received message with id {} and priority {}", id, priority);
             logger.info("Processing message with id {} and priority {}", id, priority);
             String restrictPackagesJsonString = payloadJson.get("systemPackageId").asText();
-            List<String> restrictPackagesList = mapper.readValue(restrictPackagesJsonString, new TypeReference<List<String>>(){});
+            List<String> restrictPackagesList = new ArrayList<>();
+            try {
+                restrictPackagesList =  mapper.readValue(restrictPackagesJsonString, new TypeReference<List<String>>(){});
+            } catch (Exception e) {
+                logger.error("Failed to read restrict packages. Falling back to default...");
+            }
             String restrictPackages = String.join(",", restrictPackagesList);
             Object results = thynkRuleEngineService.validateClaim(payloadJson.get("requestData").toString(), restrictPackages);
             if (results instanceof ScrubResponseReturn && ((ScrubResponseReturn) results).getOutcome() != null) {
