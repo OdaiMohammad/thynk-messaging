@@ -267,7 +267,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-2"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -289,7 +289,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-3"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -311,7 +311,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-4"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -333,7 +333,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-5"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -355,7 +355,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-normal-executor-1"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -377,7 +377,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-normal-executor-2"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
@@ -399,7 +399,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
       SPRING_APPLICATION_NAME: "thynk-messaging-bulk-executor-1"
       SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
-      RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
+      RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
