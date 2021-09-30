@@ -179,13 +179,13 @@ under the License.
     </mirror>
      <mirror>
       <id>archiva.default</id>
-      <url>http://archivaserver:8060/repository/internal/</url>
+      <url>http://dev-www.santechture.com:8060/repository/internal/</url>
       <mirrorOf>external:*,AccumedReleases</mirrorOf>
     </mirror>
     <mirror>
         <id>AccumedReleases</id>
         <name>Accumed Releases</name>
-        <url>http://archivaserver:8060/repository/AccumedReleases/</url>
+        <url>http://dev-www.santechture.com:8060/repository/AccumedReleases/</url>
         <mirrorOf>*</mirrorOf>
     </mirror>
   </mirrors>

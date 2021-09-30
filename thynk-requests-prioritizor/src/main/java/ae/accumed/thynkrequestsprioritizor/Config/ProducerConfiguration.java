@@ -29,6 +29,9 @@ public class ProducerConfiguration {
     @Value("${spring.kafka.producer.properties.partitioner.class}")
     private String partitionerClass;
 
+    @Value("${spring.kafka.producer.properties.max.request.size}")
+    private String maxRequestSize;
+
     @Bean
     public ProducerFactory<String, JsonNode> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
@@ -50,6 +53,9 @@ public class ProducerConfiguration {
         configProps.put(
                 ProducerConfig.LINGER_MS_CONFIG,
                 lingerMS);
+        configProps.put(
+                ProducerConfig.MAX_REQUEST_SIZE_CONFIG,
+                maxRequestSize);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
