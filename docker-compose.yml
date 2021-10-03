@@ -1,153 +1,153 @@
 version: "3.9"
 
 services:
-  thynk-messaging-zookeeper-1:
+  thynk-zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
-    container_name: thynk-messaging-zookeeper-1
+    container_name: thynk-zookeeper-1
     restart: always
-    hostname: thynk-messaging-zookeeper-1
+    hostname: thynk-zookeeper-1
     environment:
       ZOOKEEPER_SERVER_ID: 1
       ZOOKEEPER_CLIENT_PORT: 22181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
-      ZOOKEEPER_SERVERS: "thynk-messaging-zookeeper-1:22888:23888;thynk-messaging-zookeeper-2:32888:33888;thynk-messaging-zookeeper-3:42888:43888"
+      ZOOKEEPER_SERVERS: "thynk-zookeeper-1:22888:23888;thynk-zookeeper-2:32888:33888;thynk-zookeeper-3:42888:43888"
     volumes:
       - thynk_messaging_zookeeper_1_data:/var/lib/zookeeper/data
       - thynk_messaging_zookeeper_1_log:/var/lib/zookeeper/log
     networks:
-      stg0:
-        ipv4_address: 172.30.0.60
+      nt0:
+        ipv4_address: 172.50.0.60
 
-  thynk-messaging-zookeeper-2:
+  thynk-zookeeper-2:
     image: confluentinc/cp-zookeeper:latest
-    container_name: thynk-messaging-zookeeper-2
+    container_name: thynk-zookeeper-2
     restart: always
-    hostname: thynk-messaging-zookeeper-2
+    hostname: thynk-zookeeper-2
     environment:
       ZOOKEEPER_SERVER_ID: 2
       ZOOKEEPER_CLIENT_PORT: 32181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
-      ZOOKEEPER_SERVERS: "thynk-messaging-zookeeper-1:22888:23888;thynk-messaging-zookeeper-2:32888:33888;thynk-messaging-zookeeper-3:42888:43888"
+      ZOOKEEPER_SERVERS: "thynk-zookeeper-1:22888:23888;thynk-zookeeper-2:32888:33888;thynk-zookeeper-3:42888:43888"
     volumes:
       - thynk_messaging_zookeeper_2_data:/var/lib/zookeeper/data
       - thynk_messaging_zookeeper_2_log:/var/lib/zookeeper/log
     networks:
-      stg0:
-        ipv4_address: 172.30.0.61
+      nt0:
+        ipv4_address: 172.50.0.61
 
-  thynk-messaging-zookeeper-3:
+  thynk-zookeeper-3:
     image: confluentinc/cp-zookeeper:latest
-    container_name: thynk-messaging-zookeeper-3
+    container_name: thynk-zookeeper-3
     restart: always
-    hostname: thynk-messaging-zookeeper-3
+    hostname: thynk-zookeeper-3
     environment:
       ZOOKEEPER_SERVER_ID: 3
       ZOOKEEPER_CLIENT_PORT: 42181
       ZOOKEEPER_TICK_TIME: 2000
       ZOOKEEPER_INIT_LIMIT: 5
       ZOOKEEPER_SYNC_LIMIT: 2
-      ZOOKEEPER_SERVERS: "thynk-messaging-zookeeper-1:22888:23888;thynk-messaging-zookeeper-2:32888:33888;thynk-messaging-zookeeper-3:42888:43888"
+      ZOOKEEPER_SERVERS: "thynk-zookeeper-1:22888:23888;thynk-zookeeper-2:32888:33888;thynk-zookeeper-3:42888:43888"
     volumes:
       - thynk_messaging_zookeeper_3_data:/var/lib/zookeeper/data
       - thynk_messaging_zookeeper_3_log:/var/lib/zookeeper/log
     networks:
-      stg0:
-        ipv4_address: 172.30.0.62
+      nt0:
+        ipv4_address: 172.50.0.62
 
-  thynk-messaging-kafka-1:
+  thynk-kafka-1:
     image: confluentinc/cp-kafka:latest
-    container_name: thynk-messaging-kafka-1
+    container_name: thynk-kafka-1
     restart: always
-    hostname: thynk-messaging-kafka-1
+    hostname: thynk-kafka-1
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-messaging-kafka-1:19092
-      KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-1:22181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-kafka-1:19092
+      KAFKA_ZOOKEEPER_CONNECT: "thynk-zookeeper-1:22181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_MESSAGE_MAX_BYTES: 15728640
       KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
-      - thynk-messaging-zookeeper-1
-      - thynk-messaging-zookeeper-2
-      - thynk-messaging-zookeeper-3
+      - thynk-zookeeper-1
+      - thynk-zookeeper-2
+      - thynk-zookeeper-3
     volumes:
       - thynk_messaging_kafka_1_data:/var/lib/kafka/data
     networks:
-      stg0:
-        ipv4_address: 172.30.0.63
+      nt0:
+        ipv4_address: 172.50.0.63
 
-  thynk-messaging-kafka-2:
+  thynk-kafka-2:
     image: confluentinc/cp-kafka:latest
-    container_name: thynk-messaging-kafka-2
+    container_name: thynk-kafka-2
     restart: always
-    hostname: thynk-messaging-kafka-2
+    hostname: thynk-kafka-2
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-messaging-kafka-2:29092
-      KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-2:32181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-kafka-2:29092
+      KAFKA_ZOOKEEPER_CONNECT: "thynk-zookeeper-2:32181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_MESSAGE_MAX_BYTES: 15728640
       KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
-      - thynk-messaging-zookeeper-1
-      - thynk-messaging-zookeeper-2
-      - thynk-messaging-zookeeper-3
+      - thynk-zookeeper-1
+      - thynk-zookeeper-2
+      - thynk-zookeeper-3
     volumes:
       - thynk_messaging_kafka_2_data:/var/lib/kafka/data
     networks:
-      stg0:
-        ipv4_address: 172.30.0.64
+      nt0:
+        ipv4_address: 172.50.0.64
 
-  thynk-messaging-kafka-3:
+  thynk-kafka-3:
     image: confluentinc/cp-kafka:latest
-    container_name: thynk-messaging-kafka-3
+    container_name: thynk-kafka-3
     restart: always
-    hostname: thynk-messaging-kafka-3
+    hostname: thynk-kafka-3
     environment:
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-messaging-kafka-3:39092
-      KAFKA_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-3:42181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://thynk-kafka-3:39092
+      KAFKA_ZOOKEEPER_CONNECT: "thynk-zookeeper-3:42181"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 3
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_MESSAGE_MAX_BYTES: 15728640
       KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
-      - thynk-messaging-zookeeper-1
-      - thynk-messaging-zookeeper-2
-      - thynk-messaging-zookeeper-3
+      - thynk-zookeeper-1
+      - thynk-zookeeper-2
+      - thynk-zookeeper-3
     volumes:
       - thynk_messaging_kafka_3_data:/var/lib/kafka/data
     networks:
-      stg0:
-        ipv4_address: 172.30.0.65
+      nt0:
+        ipv4_address: 172.50.0.65
 
-  thynk-messaging-schema-registry:
+  thynk-schema-registry:
     image: confluentinc/cp-schema-registry:latest
-    container_name: thynk-messaging-schema-registry
+    container_name: thynk-schema-registry
     restart: always
     depends_on:
-      - thynk-messaging-zookeeper-1
-      - thynk-messaging-zookeeper-2
-      - thynk-messaging-zookeeper-3
+      - thynk-zookeeper-1
+      - thynk-zookeeper-2
+      - thynk-zookeeper-3
     environment:
-      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: thynk-messaging-zookeeper-1:22181
+      SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: thynk-zookeeper-1:22181
       SCHEMA_REGISTRY_HOST_NAME: localhost
       SCHEMA_REGISTRY_LISTENERS: "http://localhost:8085"
     networks:
-      stg0:
-        ipv4_address: 172.30.0.66
+      nt0:
+        ipv4_address: 172.50.0.66
 
-  thynk-messaging-kafka-connect:
+  thynk-kafka-connect:
     image: confluentinc/cp-kafka-connect:latest
-    container_name: thynk-messaging-kafka-connect
+    container_name: thynk-kafka-connect
     restart: always
     ports:
       - 38082:28082
     environment:
-      CONNECT_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
+      CONNECT_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
       CONNECT_REST_PORT: 28082
       CONNECT_GROUP_ID: "connect-cluster"
       CONNECT_CONFIG_STORAGE_TOPIC: "connect-cluster-config"
@@ -157,13 +157,13 @@ services:
       CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 3
       CONNECT_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://thynk-messaging-schema-registry:8085"
+      CONNECT_KEY_CONVERTER_SCHEMA_REGISTRY_URL: "http://thynk-schema-registry:8085"
       CONNECT_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
-      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://thynk-messaging-schema-registry:8085"
+      CONNECT_VALUE_CONVERTER_SCHEMA_REGISTRY_URL: "http://thynk-schema-registry:8085"
       CONNECT_INTERNAL_KEY_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_INTERNAL_VALUE_CONVERTER: "org.apache.kafka.connect.json.JsonConverter"
       CONNECT_PLUGIN_PATH: /usr/share/java,/etc/kafka-connect/jars
-      CONNECT_ZOOKEEPER_CONNECT: "thynk-messaging-zookeeper-1:22181"
+      CONNECT_ZOOKEEPER_CONNECT: "thynk-zookeeper-1:22181"
       CONNECT_REST_ADVERTISED_HOST_NAME: "localhost"
       CONNECT_PRODUCER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingProducerInterceptor
       CONNECT_CONSUMER_INTERCEPTOR_CLASSES: brave.kafka.interceptor.TracingConsumerInterceptor
@@ -175,18 +175,18 @@ services:
     volumes:
       - $PWD/kafka-connect-jars:/etc/kafka-connect/jars
     networks:
-      stg0:
-        ipv4_address: 172.30.0.67
+      nt0:
+        ipv4_address: 172.50.0.67
 
-  thynk-messaging-prioritizor-1:
+  thynk-prioritizor-1:
     build: thynk-requests-prioritizor/.
-    image: thynk-messaging-prioritizor:latest
-    container_name: thynk-messaging-prioritizor-1
+    image: thynk-prioritizor:latest
+    container_name: thynk-prioritizor-1
     restart: always
     environment:
-      SPRING_KAFKA_BOOTSTRAP_SERVERS:  "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-prioritizor-1"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS:  "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-prioritizor-1"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
@@ -201,22 +201,22 @@ services:
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
       SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.69
+      nt0:
+        ipv4_address: 172.50.0.69
 
-  #  thynk-messaging-prioritizor-2:
+  #  thynk-prioritizor-2:
   #    build: thynk-requests-prioritizor/.
-  #    image: thynk-messaging-prioritizor:latest
-  #    container_name: thynk-messaging-prioritizor-2
+  #    image: thynk-prioritizor:latest
+  #    container_name: thynk-prioritizor-2
   #    restart: always
   #    environment:
-  #      SPRING_KAFKA_BOOTSTRAP_SERVERS:  "thynk-messaging-kafka-2:29092"
-  #      SPRING_APPLICATION_NAME: "thynk-messaging-prioritizor-2"
-  #      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+  #      SPRING_KAFKA_BOOTSTRAP_SERVERS:  "thynk-kafka-2:29092"
+  #      SPRING_APPLICATION_NAME: "thynk-prioritizor-2"
+  #      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
   #      SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
   #      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
   #      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
@@ -229,225 +229,225 @@ services:
   #      TOPIC_BULK_PARTITIONS: 8
   #      TOPIC_BULK_REPLICAS: 3
   #    depends_on:
-  #      - thynk-messaging-kafka-1
-  #      - thynk-messaging-kafka-2
-  #      - thynk-messaging-kafka-3
+  #      - thynk-kafka-1
+  #      - thynk-kafka-2
+  #      - thynk-kafka-3
   #    networks:
-  #      stg0:
-  #        ipv4_address: 172.30.0.70
+  #      nt0:
+  #        ipv4_address: 172.50.0.70
 
 
-  thynk-messaging-executor-1:
+  thynk-executor-1:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-1
+    image: thynk-executor:latest
+    container_name: thynk-executor-1
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-1"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-1"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://87.200.7.254:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.72
+      nt0:
+        ipv4_address: 172.50.0.72
 
-  thynk-messaging-executor-2:
+  thynk-executor-2:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-2
+    image: thynk-executor:latest
+    container_name: thynk-executor-2
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-2"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-2"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.73
+      nt0:
+        ipv4_address: 172.50.0.73
 
-  thynk-messaging-executor-3:
+  thynk-executor-3:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-3
+    image: thynk-executor:latest
+    container_name: thynk-executor-3
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-3"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-3"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.74
+      nt0:
+        ipv4_address: 172.50.0.74
 
-  thynk-messaging-executor-4:
+  thynk-executor-4:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-4
+    image: thynk-executor:latest
+    container_name: thynk-executor-4
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-4"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-4"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.75
+      nt0:
+        ipv4_address: 172.50.0.75
 
-  thynk-messaging-executor-5:
+  thynk-executor-5:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-5
+    image: thynk-executor:latest
+    container_name: thynk-executor-5
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-vip-executor-5"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-5"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.76
+      nt0:
+        ipv4_address: 172.50.0.76
 
-  thynk-messaging-executor-6:
+  thynk-executor-6:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-6
+    image: thynk-executor:latest
+    container_name: thynk-executor-6
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-normal-executor-1"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-normal-executor-1"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.77
+      nt0:
+        ipv4_address: 172.50.0.77
 
-  thynk-messaging-executor-7:
+  thynk-executor-7:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-7
+    image: thynk-executor:latest
+    container_name: thynk-executor-7
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-normal-executor-2"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-normal-executor-2"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.78
+      nt0:
+        ipv4_address: 172.50.0.78
 
-  thynk-messaging-executor-8:
+  thynk-executor-8:
     build: thynk-requests-executor/.
-    image: thynk-messaging-executor:latest
-    container_name: thynk-messaging-executor-8
+    image: thynk-executor:latest
+    container_name: thynk-executor-8
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-messaging-kafka-1:19092"
-      SPRING_APPLICATION_NAME: "thynk-messaging-bulk-executor-1"
-      SPRING_ZIPKIN_BASE_URL: "http://thynk-messaging-zipkin:9411"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "thynk-kafka-1:19092"
+      SPRING_APPLICATION_NAME: "thynk-bulk-executor-1"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       RULES_ENGIN_SERVICE_URL: http://192.168.100.12:8084/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       THYNK_REQUEST_TARGET_PRIORITY: 2
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.79
+      nt0:
+        ipv4_address: 172.50.0.79
 
-  thynk-messaging-zipkin:
+  thynk-zipkin:
     image: openzipkin/zipkin
-    container_name: thynk-messaging-zipkin
+    container_name: thynk-zipkin
     restart: always
     networks:
-      stg0:
-        ipv4_address: 172.30.0.80
+      nt0:
+        ipv4_address: 172.50.0.80
 
-  thynk-messaging-stats:
+  thynk-stats:
     build: thynk-requests-stats/.
-    image: thynk-messaging-stats:latest
-    container_name: thynk-messaging-stats
+    image: thynk-stats:latest
+    container_name: thynk-stats
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%40ssw0rd123@mongo:27017"
+      SPRING_DATA_MONGODB_URI: "mongodb://SA:P%4032629w0rd@mongo:27017"
       SPRING_DATA_MONGODB_DATABSE: "thynk"
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
     networks:
-      stg0:
-        ipv4_address: 172.30.0.70
+      nt0:
+        ipv4_address: 172.50.0.70
 
-  thynk-messaging-kafdrop:
+  thynk-kafdrop:
     build: kafdrop/.
     image: accumed/kafdrop
-    container_name: thynk-messaging-kafdrop
+    container_name: thynk-kafdrop
     restart: always
     environment:
-      KAFKA_BROKERCONNECT: "thynk-messaging-kafka-1:19092"
+      KAFKA_BROKERCONNECT: "thynk-kafka-1:19092"
     depends_on:
-      - thynk-messaging-kafka-1
-      - thynk-messaging-kafka-2
-      - thynk-messaging-kafka-3
+      - thynk-kafka-1
+      - thynk-kafka-2
+      - thynk-kafka-3
     networks:
-      stg0:
-        ipv4_address: 172.30.0.68
+      nt0:
+        ipv4_address: 172.50.0.68
 
 volumes:
   thynk_messaging_zookeeper_1_data:
@@ -470,6 +470,6 @@ volumes:
     name: thynk_messaging_kafka_3_data
 
 networks:
-  stg0:
-    name: stg0
+  nt0:
+    name: nt0
     external: true

@@ -3,7 +3,7 @@
   "config": {
     "connector.class": "com.mongodb.kafka.connect.MongoSourceConnector",
     "tasks.max": "1",
-    "connection.uri":"mongodb://SA:P%40ssw0rd123@mongo:27017",
+    "connection.uri":"mongodb://SA:P%4032629w0rd@mongo:27017",
     "database": "thynk",
     "collection": "thynkrequest",
     "publish.full.document.only": true,
@@ -13,6 +13,6 @@
     "pipeline": "[{\"$match\": {\"operationType\": \"insert\"}}]",
     "producer.override.zipkin.local.service.name": "mongodb-source-connector",
     "producer.override.zipkin.sender.type": "HTTP",
-    "producer.override.zipkin.http.endpoint": "http://thynk-messaging-zipkin:9411/api/v2/spans"
+    "producer.override.zipkin.http.endpoint": "http://thynk-zipkin:9411/api/v2/spans"
   }
 }
