@@ -140,7 +140,7 @@ services:
     container_name: thynk-vip-executor-1
     restart: always
     environment:
-      SPRING_DATA_MONGODB_URI: "mongodb://sa@password:mongo:27017"
+      SPRING_DATA_MONGODB_URI: "mongodb://sa:password@mongo:27017"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
       SPRING_KAFKA_CONSUMER_GROUP-ID: "thynk-request-consumers"
       SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESTE: "earliest"
