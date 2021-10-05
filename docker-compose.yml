@@ -123,7 +123,7 @@ services:
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
       SPRING_APPLICATION_NAME: "thynk-request-prioritizor"
-      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
@@ -153,7 +153,7 @@ services:
       SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: "org.springframework.kafka.support.serializer.JsonSerializer"
       SPRING_DATA_MONGODB_DATABSE: "thynk"
       SPRING_APPLICATION_NAME: "thynk-vip-executor-1"
-      SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
+      SPRING_ZIPKIN_BASE_URL: "http://thynk-zipkin:9411"
       SPRING_KAFKA_CONSUMER_PROPERTIES_PARTITION_ASSIGNMENT_STRATEGY: org.apache.kafka.clients.consumer.RoundRobinAssignor
       RULES_ENGIN_SERVICE_URL: http://dev-www.santechture.com:7777/RulesEngine/AccumedValidator
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
