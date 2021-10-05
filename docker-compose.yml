@@ -3,7 +3,7 @@ version: "3.9"
 services:
   thynk-zookeeper:
     image: confluentinc/cp-zookeeper:latest
-    container_name: zookeeper
+    container_name: thynk-zookeeper
     restart: always
     hostname: zookeeper
     ports:
@@ -19,7 +19,7 @@ services:
 
   thynk-kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: kafka
+    container_name: thynk-kafka
     restart: always
     hostname: kafka
     ports:
@@ -51,7 +51,7 @@ services:
 
   thynk-schema-registry:
     image: confluentinc/cp-schema-registry:latest
-    container_name: schema
+    container_name: thynk-schema-registry
     restart: always
     depends_on:
       - thynk-zookeeper
@@ -66,7 +66,7 @@ services:
 
   thynk-kafka-connect:
     image: confluentinc/cp-kafka-connect:latest
-    container_name: connect
+    container_name: thynk-kafka-connect
     restart: always
     environment:
       CONNECT_BOOTSTRAP_SERVERS: "kafka:19092"
@@ -104,7 +104,7 @@ services:
 
   thynk-kafdrop:
     image: obsidiandynamics/kafdrop
-    container_name: kafdrop
+    container_name: thynk-kafdrop
     restart: always
     ports:
       - "9000:9000"
@@ -118,7 +118,7 @@ services:
   thynk-prioritizor:
     build: thynk-requests-prioritizor/.
     image: thynk-requests-prioritizor:latest
-    container_name: thynk-requests-prioritizor
+    container_name: thynk-prioritizor
     restart: always
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka:19092"
@@ -134,28 +134,10 @@ services:
     networks:
       - thynk
 
-
-  thynk-stats:
-    build: thynk-requests-stats/.
-    image: thynk-requests-stats:latest
-    container_name: thynk-requests-stats
-    restart: always
-    ports:
-      - 8088:8080
-    environment:
-      SPRING_DATA_MONGODB_HOST: "mongo"
-      SPRING_DATA_MONGODB_PORT: "27017"
-      SPRING_DATA_MONGODB_DATABSE: "thynk"
-      SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
-      MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-      MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
-    networks:
-      - thynk
-
   thynk-executor:
     build: thynk-requests-executor/.
     image: thynk-requests-executor:latest
-    container_name: thynk-requests-executor
+    container_name: thynk-vip-executor-1
     restart: always
     environment:
       SPRING_DATA_MONGODB_HOST: "mongo"
@@ -165,12 +147,13 @@ services:
       SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESTE: "earliest"
       SPRING_KAFKA_CONSUMER_ENABLE_AUTO_COMMIT: "false"
       SPRING_KAFKA_CONSUMER_MAX_POLL_RECORDS: 1
+      THYNK_REQUEST_TARGET_PRIORITY: 1
       SPRING_KAFKA_LISTENER_IDLE_EVENT_INTERVAL: 5000
       SPRING_KAFKA_LISTENER_ACK_MODE: "manual_immediate"
       SPRING_KAFKA_PRODUCER_KEY_SERIALIZER: "org.apache.kafka.common.serialization.StringSerializer"
       SPRING_KAFKA_PRODUCER_VALUE_SERIALIZER: "org.springframework.kafka.support.serializer.JsonSerializer"
       SPRING_DATA_MONGODB_DATABSE: "thynk"
-      SPRING_APPLICATION_NAME: "thynk-request-executor"
+      SPRING_APPLICATION_NAME: "thynk-vip-executor-1"
       SPRING_ZIPKIN_BASE_URL: "http://zipkin:9411"
       SPRING_KAFKA_CONSUMER_PROPERTIES_PARTITION_ASSIGNMENT_STRATEGY: org.apache.kafka.clients.consumer.RoundRobinAssignor
       RULES_ENGIN_SERVICE_URL: http://dev-www.santechture.com:7777/RulesEngine/AccumedValidator
@@ -184,9 +167,9 @@ services:
     networks:
       - thynk
 
-  zipkin:
+  thynk-zipkin:
     image: openzipkin/zipkin
-    container_name: zipkin
+    container_name: thynk-zipkin
     restart: always
     ports:
       - "9411:9411"
@@ -197,13 +180,11 @@ services:
 
 volumes:
   zookeeper_data:
-    name: zookeeper_data
+    name: thynk_zookeeper_data
   zookeeper_log:
-    name: zookeeper_log
+    name: thynk_zookeeper_log
   kafka_data:
-    name: kafka_data
-  mongo_data:
-    name: mongo_data
+    name: thynk_kafka_data
 
 networks:
   thynk:
