@@ -165,6 +165,7 @@ services:
       - thynk-kafka
     networks:
       - thynk
+      - hosting
 
   thynk-zipkin:
     image: openzipkin/zipkin
