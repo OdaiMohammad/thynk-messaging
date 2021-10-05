@@ -43,7 +43,7 @@ services:
       KAFKA_MESSAGE_MAX_BYTES: 15728640
       KAFKA_REPLICA_FETCH_MAX_BYTES: 15728640
     depends_on:
-      - zookeeper
+      - thynk-zookeeper
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
@@ -54,7 +54,7 @@ services:
     container_name: schema
     restart: always
     depends_on:
-      - zookeeper
+      - thynk-zookeeper
     environment:
       SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL: zookeeper:2181
       SCHEMA_REGISTRY_HOST_NAME: localhost
@@ -111,7 +111,7 @@ services:
     environment:
       KAFKA_BROKERCONNECT: "kafka:19092"
     depends_on:
-      - kafka
+      - thynk-kafka
     networks:
       - thynk
 
@@ -130,7 +130,7 @@ services:
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
       SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE: 15728640
     depends_on:
-      - kafka
+      - thynk-kafka
     networks:
       - thynk
 
@@ -149,8 +149,6 @@ services:
       SPRING_BOOT_ADMIN_CLIENT_URL: "http://spring-boot-admin:8080"
       MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
       MANAGEMENT_ENDPOINT_HEALTH_SHOW_DETAILS: always
-    depends_on:
-      - mongo
     networks:
       - thynk
 
@@ -182,8 +180,7 @@ services:
       SPRING_KAFKA_CONSUMER_PROPERTIES_MAX_PARTITION_FETCH_BYTES: 15728640
       SPRING_KAFKA_PRODUCER_PROPERTIES_MAX_REQUEST_SIZE: 15728640
     depends_on:
-      - kafka
-      - mongo
+      - thynk-kafka
     networks:
       - thynk
 
